@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+    <script type="text/javascript" src="http://cdn.webfont.youziku.com/wwwroot/js/wf/youziku.api.min.js"></script>
+    <script type="text/javascript">
+        $youziku.load("body", "67fda1f6d86b48d7a2f015f1a9e53664", "Source-Han-Light");
+        $youziku.draw();
+    </script>
+    <style>
+        img {
+            width: 100%;
+            height: 100vh;
+        }
+
+        .center {
+            text-align: center;
+        }
+
+        .absoluteCenter {
+            position: absolute;
+            width: 100%;
+            text-align: center
+        }
+
+        * {
+            color: white;
+            font-weight: 800;
+        }
+
+        h1 {
+            font-size: 3.8em;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="container-fluid">
+        <div class="row justify-content-md-center">
+            <div class="col-md-3 col-xs-12">
+                <div class="row">
+                    <img id="img" style="position: absolute;top: 0;z-index: 0">
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div style="position: absolute;top: 6vh;text-align: center;width: 100%">
+                            <h1>
+                                <span id="time"></span>
+                            </h1>
+                            <p>我们已相爱
+                                <span id="loverDate"></span>
+                                天</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="button">dd</div>
+        </div>
+    </div>
+
+    <script>
+        // 改后代码 power by liangliang
+
+
+        // 1.改后：随机渲染图片
+        let dom = document.getElementById('img')
+        let pics = ['lover1.jpg', 'lover2.jpg', 'lover3.jpg']
+        let random = parseInt(Math.random() * pics.length)
+        dom.src = './image/' + pics[random]
+
+        // 1.改前：随机渲染图片
+        // let dom = document.getElementById('img')
+        // let pics = ['lover1.jpg', 'lover2.jpg', 'lover3.jpg']
+        // window.onload = function f() {
+        //     let random = parseInt(Math.random() * pics.length)
+        //     dom.src = './image/' + pics[random]
+        // }
+
+        // 总结：写在js中的本身就是自动执行，没有必要外加window.onload
+
+
+        // 2.改后：时间格式化
+
+        let loverTime = document.getElementById('time');
+        // 获取到时间格式：
+        //      * new Date().toTimeString()  '21:36:11 GMT+0800 (中国标准时间)'   获取当前时间 && 时区 （已格式化）
+        //      * new Date().toTimeString().split(' ')[0] '21:36:00'            截取当前时间        （已格式化）
+        // 区别之前写的：
+        //      * new Date().toTimeString() vs new Date().getHours()...         获取到的为格式化数据 vs 获取到为独立数据
+        loverTime.innerText = new Date().toTimeString().split(' ')[0]
+
+        let loverDom = document.getElementById('loverDate');
+        // 接收一个起始时间，计算出相差时间innerText
+        loverDom.innerText = ((loverDate) => {
+            parseInt((Date.now() - loverDate.getTime()) / 86400000)
+        })(new Date("Tue Jun 10 2018 10:54:03 GMT+0000 (UTC)"))
+
+        // setInterval(function, time) 单位time里，反复执行function
+        setInterval(() => loverTime.innerText = new Date().toTimeString().split(' ')[0], 1000)
+
+        // 2.改前：时间格式化
+        // let loverTime = document.getElementById('time');
+        // let loverDom = document.getElementById('loverDate');
+        // let innerLoverDate = function () {
+        //     let loverDate = new Date("Tue Jun 10 2018 10:54:03 GMT+0000 (UTC)");
+        //     let nowDate = new Date();
+        //     let date = (nowDate.getTime() - loverDate.getTime()) / 86400000;
+        //     loverDom.innerText = parseInt(date)
+        // }();
+
+        // function time() {
+        //     let now = new Date()
+        //     let hour = now.getHours();
+        //     let min = now.getMinutes();
+        //     let sec = now.getSeconds();
+
+        //     function length(a) {
+        //         if (a.toString().length < 2) {
+        //             return `0${a.toString()}`
+        //         } else return a
+        //     }
+        //     sec = length(sec)
+        //     min = length(min)
+        //     loverTime.innerText = `${hour}:${min}:${sec}`
+        // }
+        // setInterval(time, 1000);
+
+
+        // 总结：
+        //      * 在日期格式化中可以采用自带的方式，不用获取分秒时
+    </script>
+</body>
+
+</html>
