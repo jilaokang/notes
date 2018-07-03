@@ -1,1 +1,1 @@
-<img src="./img/happyJs.ipg"/>
+<img src="img/happyJs.ipg" width="60%"/>
